@@ -8,7 +8,6 @@ resource "openstack_identity_user_v3" "eval_user" {
     name = "eval"
     description = "Evaluation user"
 
-    username = var.username
     password = var.password
 }
 
