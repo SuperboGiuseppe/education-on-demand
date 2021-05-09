@@ -1,3 +1,13 @@
+terraform {
+required_version = ">= 0.14.0"
+  required_providers {
+    openstack = {
+      source  = "terraform-provider-openstack/openstack"
+      version = "~> 1.35.0"
+    }
+  }
+}
+
 resource "openstack_identity_project_v3" "term_project" {
     name = var.project_name
     description = "Openstack project for the Fog and Cloud Computing Term project"
