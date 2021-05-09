@@ -7,7 +7,6 @@ resource "openstack_identity_user_v3" "eval_user" {
     default_project_id = "${openstack_identity_project_v3.term_project.id}"
     name = "eval"
     description = "Evaluation user"
-
     password = var.password
 }
 
