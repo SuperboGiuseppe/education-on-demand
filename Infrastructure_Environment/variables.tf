@@ -10,7 +10,7 @@ variable "short_project_name" {
   default = "lod"
 }
 
-variable "password" {
+variable "project_id" {
   type = string
 }
 
@@ -18,8 +18,14 @@ variable "user_id_list" {
   type = list(string)
 }
 
-variable "member_role_id" {
+variable "user_name_list" {
+  type = list(string)
+}
+
+variable "subnet_pool_id" {
   type = string
 }
 
-
+variable "public_network_id" {
+  type = string
+}

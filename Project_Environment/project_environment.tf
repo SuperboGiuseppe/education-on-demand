@@ -32,3 +32,4 @@ resource "openstack_identity_role_assignment_v3" "project_membership_dynamic" {
   project_id = "${openstack_identity_project_v3.term_project.id}"
   role_id    = var.member_role_id
 }
+
