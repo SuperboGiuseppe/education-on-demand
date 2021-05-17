@@ -10,9 +10,9 @@ output_user_id_list="["
 for id in "${user_id_list[@]}"
         do
                 if [ "$id" != "${user_id_list[-1]}" ]; then
-                        output_list="$output_user_id_list\"$id\","
+                        output_user_id_list="$output_user_id_list\"$id\","
                 else
-                        output_list="$output_user_id_list\"$id\""
+                        output_user_id_list="$output_user_id_list\"$id\""
                 fi
         done
 output_user_id_list="$output_user_id_list]"
@@ -23,9 +23,9 @@ output_user_name_list="["
 for name in "${user_name_list[@]}"
         do
                 if [ "$name" != "${user_name_list[-1]}" ]; then
-                        output_list="$output_user_name_list\"$name\","
+                        output_user_name_list="$output_user_name_list\"$name\","
                 else
-                        output_list="$output_user_name_list\"$name\""
+                        output_user_name_list="$output_user_name_list\"$name\""
                 fi
         done
 output_user_name_list="$output_user_name_list]"
