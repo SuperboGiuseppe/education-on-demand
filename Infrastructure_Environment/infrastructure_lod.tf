@@ -73,7 +73,7 @@ resource "openstack_compute_secgroup_v2" "http_https_security_group" {
   }
 }
 
-resource "openstack_compute_secgroup_v2" "db_security group" {
+resource "openstack_compute_secgroup_v2" "db_security_group" {
   name = "db_security_group"
   description = "Enable to access the instance from outside via Mysql default port (Port 3306)"
 
@@ -87,12 +87,11 @@ resource "openstack_compute_secgroup_v2" "db_security group" {
 }
 
 
-
 resource "openstack_compute_keypair_v2" "keypair_generation" {
   name="${var.short_project_name}_key"
 }
 
-resource "openstack_networking_floatingip_v2" "lod-fe-floatingip" {
+resource "openstack_networking_floatingip_v2" "lod_fe_floatingip" {
   pool = "public"
 }
 
@@ -100,8 +99,8 @@ resource "openstack_compute_instance_v2" "lod_fe_01" {
   name = "lod_fe_01"
   image_id = "${openstack_images_image_v2.ubuntu_os.id}"
   flavor_id = "2"
-  key_pair = "${openstack_compute_keypair_v2.keypair_generation}"
-  security_groups = ["${openstack_compute_secgroup_v2.http_https_security_group}", "${openstack_compute_secgroup_v2.ssh_security_group}"]
+  key_pair = "${openstack_compute_keypair_v2.keypair_generation.name}"
+  security_groups = ["${openstack_compute_secgroup_v2.http_https_security_group.name}", "${openstack_compute_secgroup_v2.ssh_security_group.name}"]
 
   network {
     name = "${openstack_networking_network_v2.private_network.name}"
@@ -112,15 +111,15 @@ resource "openstack_compute_instance_v2" "lod_be_01" {
   name = "lod_be_01"
   image_id = "${openstack_images_image_v2.ubuntu_os.id}"
   flavor_id = "3"
-  key_pair = "${openstack_compute_keypair_v2.keypair_generation}"
-  security_groups = ["${openstack_compute_secgroup_v2.db_security_group}", "${openstack_compute_secgroup_v2.ssh_security_group}"]
+  key_pair = "${openstack_compute_keypair_v2.keypair_generation.name}"
+  security_groups = ["${openstack_compute_secgroup_v2.db_security_group.name}", "${openstack_compute_secgroup_v2.ssh_security_group.name}"]
 
   network {
     name = "${openstack_networking_network_v2.private_network.name}"
   }
 }
 
-resource "openstack_compute_floatingip_associate_v2" "lod-fe-floatingip-association" {
+resource "openstack_compute_floatingip_associate_v2" "lod_fe_floatingip_association" {
   floating_ip = "${openstack_networking_floatingip_v2.lod_fe_floatingip.address}"
   instance_id = "${openstack_compute_instance_v2.lod_fe_01.id}"
 }
