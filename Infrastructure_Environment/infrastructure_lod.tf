@@ -42,10 +42,43 @@ resource "openstack_networking_router_interface_v2" "lod_router_interface" {
   subnet_id = "${openstack_networking_subnet_v2.private_subnet.id}"
 }
 
+resource "openstack_compute_secgroup_v2" "ssh_security_group" {
+  name = "ssh_security_group"
+  description = "Enable to access the instance from outside via SSH connection (Port 22)"
+
+  rule {
+    from_port = 22
+    to_port = 22
+    ip_protocol = "tcp"
+    cidr = "0.0.0.0/0"
+  }
+}
+
+resource "openstack_compute_secgroup_v2 "http_https_security_group" {
+  name = "http_https_security_group"
+  description = "Enable to access the instance from outside via HTTP/HTTPS connection (Port 80/443)"
+
+  rule {
+    from_port = 80
+    to_port = 80
+    ip_protocol = "tcp"
+    cidr = "0.0.0.0/0"
+  }
+
+  rule {
+    from_port = 443
+    to_port = 443
+    ip_protocol = "tcp"
+    cidr = "0.0.0.0/0"
+  }
+}
 
 resource "openstack_compute_keypair_v2" "keypair_generation" {
-  count=length(var.user_name_list)
-  name=var.user_name_list[count.index]
+  name="${var.short_project_name}_key"
+}
+
+resource "openstack_networking_floatingip_v2" "lod-fe-floatingip" {
+  pool = "public"
 }
 
 resource "openstack_compute_instance_v2" "lod_fe_01" {
@@ -53,5 +86,17 @@ resource "openstack_compute_instance_v2" "lod_fe_01" {
   image_id = "${openstack_images_image_v2.ubuntu_os.id}"
   flavor_id = "2"
   key_pair = "${openstack_compute_keypair_v2.keypair_generation}"
+  security_groups = ["${openstack_compute_secgroup_v2.http_https_security_group}", "${openstack_compute_secgroup_v2.ssh_security_group}"]
+
+  network {
+    name = "${openstack_networking_network_v2.private_network.name}"
+  }
 }
+
+resource "opesntack_compute_floatingip_associate_v2" "lod-fe-floatingip-association" {
+  floating_ip = "${openstack_networking_floatingip_v2.lod_fe_floatingip.address}"
+  instance_id = "${openstack_compute_instance_v2.lod_fe_01.id}"
+}
+
+
 
