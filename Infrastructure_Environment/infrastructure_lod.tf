@@ -34,12 +34,12 @@ resource "openstack_networking_subnet_v2" "private_subnet" {
 
 resource "openstack_networking_router_v2" "lod_router" {
   name = "${var.short_project_name}_router_1"
-  external_network_id = "${var.public_network_id}
+  external_network_id = "${var.public_network_id}"
 }
 
 resource "openstack_networking_router_interface_v2" "lod_router_interface" {
-  router_id = ${openstack_networking_router_v2.lod_router.id}"
-  subnet_id = ${openstack_networking_subnet_v2.private_subnet.id}"
+  router_id = "${openstack_networking_router_v2.lod_router.id}"
+  subnet_id = "${openstack_networking_subnet_v2.private_subnet.id}"
 }
 
 
@@ -52,6 +52,6 @@ resource "openstack_compute_instance_v2" "lod_fe_01" {
   name = "lod_fe_01"
   image_id = "${openstack_images_image_v2.ubuntu_os.id}"
   flavor_id = "2"
-  key_pair = "${openstack_compute_keypair_v2.keypair_generation}
+  key_pair = "${openstack_compute_keypair_v2.keypair_generation}"
 }
 
