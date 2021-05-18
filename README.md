@@ -43,10 +43,10 @@ and any server created will be placed in this network. Different subnets
 can be allocated in the network. For this project a single private
 subnet labeled “edu-private-network-subnet-01” is allocated.
 
-<span>||c|c|c|c||</span> Subnet name & Network subnet & Public/Private &
-Gateway IP\
-[0.5ex] edu-private-network-subnet-01 & 10.0.1.0/24 & Private &
-10.0.1.1\
+| Subnet name                   | Network subnet | Public/Private | Gateway IP |
+|-------------------------------|----------------|----------------|------------|
+| lod-private-network-subnet-01 | 10.0.2.0/24    | Private        | 10.0.1.1   |
+
 
 Private subnet is restricted only to be accessible through the dedicated
 router interface between private project network and public network. The
@@ -54,10 +54,9 @@ router named ”edu-router-01” is connected to the private subnet through
 an interface. In this way it is possible to reach public internet from
 the subnet and viceversa when allocating a floating IP.
 
-<span>||c|c|c|c||</span> Router name & Availability zone & Interface &
-Gateway IP\
-[0.5ex] edu-router-01 & Nova & Public edu-private-network-subnet-01 &
-10.0.1.1\
+| Router name   | Availability zone | Interface                                 | Gateway IP |
+|---------------|-------------------|-------------------------------------------|------------|
+| lod-router-01 | Nova              | Public <--> lod-private-network-subnet-01 | 10.0.1.1   |
 
 Asset inventory
 ===============
@@ -154,6 +153,6 @@ Contact points
 
 | Name           | Surname | E-mail                                    | Github repository                  |
 |----------------|---------|-------------------------------------------|------------------------------------|
-| Giuseppe       | Superbo | giuseppe.superbo97_at_gmail.com             | https://github.com/SuperboGiuseppe |
+| Giuseppe       | Superbo | giuseppe.superbo97_at_gmail.com           | https://github.com/SuperboGiuseppe |
 | Muhammad Uzair | Aslam   | muhammaduazair.aslam_at_studenti.unitn.it | https://github.com/uzairali37      |
 
