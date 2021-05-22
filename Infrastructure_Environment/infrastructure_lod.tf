@@ -86,32 +86,61 @@ resource "openstack_compute_secgroup_v2" "db_security_group" {
 
 }
 
+resource "openstack_compute_keypair_v2" "keypair_frontend" {
+  name="${var.short_project_name}_fe_key"
+}
 
-resource "openstack_compute_keypair_v2" "keypair_generation" {
-  name="${var.short_project_name}_key"
+resource "openstack_compute_keypair_v2" "keypair_backend" {
+  name="${var.short_project_name}_be_key"
 }
 
 resource "openstack_networking_floatingip_v2" "lod_fe_floatingip" {
   pool = "public"
 }
 
+data "cloudinit_config" "user_data_fe" {
+  gzip = false
+  base64_encode = false
+
+  part {
+    content_type = "text/cloud-config"
+    content = jsonencode({
+      write_files = [
+        {
+          content = "${openstack_compute_keypair_v2.keypair_backend.private_key}"
+          path = "/home/ubuntu/bastion_host.pem"
+          permissions = "0600"
+        },
+        {
+          content = "${openstack_compute_keypair_v2.keypair_backend.public_key}"
+          path = "/home/ubuntu/bastion_host.cert"
+          permissions = "0600"
+        }
+      ]
+    })
+  }
+
+}
+
 resource "openstack_compute_instance_v2" "lod_fe_01" {
   name = "lod_fe_01"
   image_id = "${openstack_images_image_v2.ubuntu_os.id}"
   flavor_id = "2"
-  key_pair = "${openstack_compute_keypair_v2.keypair_generation.name}"
+  key_pair = "${openstack_compute_keypair_v2.keypair_frontend.name}"
   security_groups = ["${openstack_compute_secgroup_v2.http_https_security_group.name}", "${openstack_compute_secgroup_v2.ssh_security_group.name}"]
 
   network {
     name = "${openstack_networking_network_v2.private_network.name}"
   }
+
+  user_data = "${data.cloudinit_config.user_data_fe.rendered}"
 }
 
 resource "openstack_compute_instance_v2" "lod_be_01" {
   name = "lod_be_01"
   image_id = "${openstack_images_image_v2.ubuntu_os.id}"
   flavor_id = "3"
-  key_pair = "${openstack_compute_keypair_v2.keypair_generation.name}"
+  key_pair = "${openstack_compute_keypair_v2.keypair_backend.name}"
   security_groups = ["${openstack_compute_secgroup_v2.db_security_group.name}", "${openstack_compute_secgroup_v2.ssh_security_group.name}"]
 
   network {
@@ -125,14 +154,15 @@ resource "openstack_compute_floatingip_associate_v2" "lod_fe_floatingip_associat
 }
 
 resource "local_file" "private_key_file" {
-  content = "${openstack_compute_keypair_v2.keypair_generation.private_key}"
+  content = "${openstack_compute_keypair_v2.keypair_frontend.private_key}"
   filename = "${HOME}/generated_key_pair/${var.project_name}/${var.short_project_name}_key.pem"
 }
 
 resource "local_file" "public_key_file" {
-  content = "${openstack_compute_keypair_v2.keypair_generation.public_key}"
+  content = "${openstack_compute_keypair_v2.keypair_frontend.public_key}"
   filename = "${HOME}/generated_key_pair/${var.project_name}/${var.short_project_name}_key.cert"
 }
+
 
 
 
