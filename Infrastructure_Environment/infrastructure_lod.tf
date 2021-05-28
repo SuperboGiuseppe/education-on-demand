@@ -135,7 +135,9 @@ data "cloudinit_config" "user_data_be" {
           permissions = "0555"
         }, 
       ],
-      runcmd = "/home/ubuntu/provisioning_script_backend.sh"
+      runcmd = [
+        ["bash", "/home/ubuntu/provisioning_script_backend.sh"]
+      ]
     })
   }
 }
@@ -176,6 +178,7 @@ resource "openstack_compute_floatingip_associate_v2" "lod_fe_floatingip_associat
 resource "local_file" "private_key_file" {
   content = "${openstack_compute_keypair_v2.keypair_frontend.private_key}"
   filename = "generated_key_pair/${var.project_name}/${var.short_project_name}_key.pem"
+  file_permission = "0400"
 }
 
 resource "local_file" "public_key_file" {
