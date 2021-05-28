@@ -131,13 +131,11 @@ data "cloudinit_config" "user_data_be" {
       write_files = [
         {
           content = file("./provisioning_script_backend.sh")
-          path = "/tmp/provisioning_script_backend.sh"
+          path = "/home/ubuntu/provisioning_script_backend.sh"
           permissions = "0555"
         }, 
       ],
-      runcmd = [
-        "bash /tmp/provisioning_script_backend.sh"
-      ]
+      runcmd = "/home/ubuntu/provisioning_script_backend.sh"
     })
   }
 }
