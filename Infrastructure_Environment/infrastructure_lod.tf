@@ -30,6 +30,7 @@ resource "openstack_networking_subnet_v2" "private_subnet" {
   prefix_length = 24
   subnetpool_id = "${var.subnet_pool_id}"
   ip_version = 4
+  dns_nameservers = ["8.8.8.8", "8.8.4.4"]
 }
 
 resource "openstack_networking_router_v2" "lod_router" {
