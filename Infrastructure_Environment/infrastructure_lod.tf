@@ -114,12 +114,31 @@ data "cloudinit_config" "user_data_fe" {
         {
           content = "${openstack_compute_keypair_v2.keypair_backend.public_key}"
           path = "/home/ubuntu/bastion_host.cert"
-          permissions = "0600"
-        }
+        } 
       ]
     })
   }
 
+}
+
+data "cloudinit_config" "user_data_be" {
+  gzip = false
+  base64_encode = false
+  part {
+    content_type = "text/cloud-config"
+    content = jsonencode({
+      write_files = [
+        {
+          content = file("./provisioning_script_backend.sh")
+          path = "/tmp/provisioning_script_backend.sh"
+          permissions = "0555"
+        }, 
+      ],
+      runcmd = [
+        "bash /tmp/provisioning_script_backend.sh"
+      ]
+    })
+  }
 }
 
 resource "openstack_compute_instance_v2" "lod_fe_01" {
@@ -146,6 +165,8 @@ resource "openstack_compute_instance_v2" "lod_be_01" {
   network {
     name = "${openstack_networking_network_v2.private_network.name}"
   }
+
+  user_data = "${data.cloudinit_config.user_data_be.rendered}"
 }
 
 resource "openstack_compute_floatingip_associate_v2" "lod_fe_floatingip_association" {
