@@ -176,12 +176,12 @@ resource "openstack_compute_floatingip_associate_v2" "lod_fe_floatingip_associat
 
 resource "local_file" "private_key_file" {
   content = "${openstack_compute_keypair_v2.keypair_frontend.private_key}"
-  filename = "${HOME}/generated_key_pair/${var.project_name}/${var.short_project_name}_key.pem"
+  filename = "generated_key_pair/${var.project_name}/${var.short_project_name}_key.pem"
 }
 
 resource "local_file" "public_key_file" {
   content = "${openstack_compute_keypair_v2.keypair_frontend.public_key}"
-  filename = "${HOME}/generated_key_pair/${var.project_name}/${var.short_project_name}_key.cert"
+  filename = "generated_key_pair/${var.project_name}/${var.short_project_name}_key.cert"
 }
 
 
