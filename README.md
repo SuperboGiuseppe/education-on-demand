@@ -192,19 +192,9 @@ bla bla bla
 ### Database
 #### Create of Project
 
-
-
-#### Then, download your token and place it at the root of your project
-
-
-
 ### Cloud Functions
 
 #### Deploy a new cloud function
-
-
-
-#### Take note of the automatically generated route
 
 
 ## Usage
@@ -226,14 +216,6 @@ bla bla bla
 
 <!-- TROUBLESHOOT -->
 ## Troubleshoot
-
-#### React Native
-
-
-
-
-#### React
-
 
 
 <!-- LICENSE -->
