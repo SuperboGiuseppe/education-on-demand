@@ -6,7 +6,7 @@
   <h3 align="center">A Cloud infrastructure that provide Linux on Demand</h3>
 </p>
 <p align="center">
-Project A.Y. 2020-21 University of Trento, Italy
+Fog and Cloud Computing Project A.Y. 2020-21 University of Trento, Italy
   <br/>
   <br/>
 <a href="https://github.com/SuperboGiuseppe/linux-on-demand/issues">
