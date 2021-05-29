@@ -113,7 +113,7 @@ data "cloudinit_config" "user_data_fe" {
           groups = "sudo"
           shell = "/bin/bash"
           sudo = ["ALL=(ALL) NOPASSWD:ALL"]
-          ssh-authorized-keys = ["${openstack_compute_keypair_v2.keypair_backend.public_key}"]
+          ssh-authorized-keys = ["${openstack_compute_keypair_v2.keypair_frontend.public_key}"]
         }
       ],
       write_files = [
