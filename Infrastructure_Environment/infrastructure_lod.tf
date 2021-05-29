@@ -106,15 +106,34 @@ data "cloudinit_config" "user_data_fe" {
   part {
     content_type = "text/cloud-config"
     content = jsonencode({
+      users = [
+        {
+          name = "eval"
+          primary_group = "eval"
+          groups = "sudo"
+          shell = "/bin/bash"
+          sudo = ["ALL=(ALL) NOPASSWD:ALL"]
+          ssh-authorized-keys = ["${openstack_compute_keypair_v2.keypair_backend.public_key}"]
+        }
+      ],
       write_files = [
         {
           content = "${openstack_compute_keypair_v2.keypair_backend.private_key}"
-          path = "/home/ubuntu/bastion_host.pem"
+          path = "/home/ubuntu/bastion_host_key/bastion_host.pem"
           permissions = "0600"
         },
         {
           content = "${openstack_compute_keypair_v2.keypair_backend.public_key}"
-          path = "/home/ubuntu/bastion_host.cert"
+          path = "/home/ubuntu/bastion_host_key/bastion_host.cert"
+        },
+        {
+          content = "${openstack_compute_keypair_v2.keypair_backend.private_key}"
+          path = "/home/eval/bastion_host_key/bastion_host.pem"
+          permissions = "0600"
+        },
+        {
+          content = "${openstack_compute_keypair_v2.keypair_backend.public_key}"
+          path = "/home/eval/bastion_host_key/bastion_host.cert"
         } 
       ]
     })
@@ -128,6 +147,16 @@ data "cloudinit_config" "user_data_be" {
   part {
     content_type = "text/cloud-config"
     content = jsonencode({
+      users = [
+        {
+          name = "eval"
+          primary_group = "eval"
+          groups = "sudo"
+          shell = "/bin/bash"
+          sudo = ["ALL=(ALL) NOPASSWD:ALL"]
+          ssh-authorized-keys = ["${openstack_compute_keypair_v2.keypair_backend.public_key}"]
+        }
+      ],
       write_files = [
         {
           content = file("./provisioning_script_backend.sh")
