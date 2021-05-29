@@ -1,14 +1,14 @@
 
 <!-- PROJECT LOGO -->
 <p align="center">
-  
-  <!-- ![image](images/logo1.png) -->
+    <!-- ![image](images/logo1.png) -->
  <img src="./images/logo1.png" width="50%" alt="OpenStack">
+  <h3 align="center">A Cloud infrastructure that provide Linux on Demand</h3>
 </p>
-<br />
-<br />
-
 <p align="center">
+Project A.Y. 2020-21 University of Trento, Italy
+  <br/>
+  <br/>
 <a href="https://github.com/SuperboGiuseppe/linux-on-demand/issues">
 <img alt="GitHub issues" src="https://img.shields.io/github/issues/SuperboGiuseppe/linux-on-demand"></a>
 <a href="https://github.com/SuperboGiuseppe/linux-on-demand/network">
