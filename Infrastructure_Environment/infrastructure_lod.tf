@@ -99,6 +99,53 @@ resource "openstack_networking_floatingip_v2" "lod_fe_floatingip" {
   pool = "public"
 }
 
+
+
+data "cloudinit_config" "user_data_be" {
+  gzip = false
+  base64_encode = false
+  part {
+    content_type = "text/cloud-config"
+    content = jsonencode({
+      users = [
+        {
+          name = "eval"
+          primary_group = "eval"
+          groups = "sudo"
+          shell = "/bin/bash"
+          sudo = ["ALL=(ALL) NOPASSWD:ALL"]
+          ssh-authorized-keys = ["${openstack_compute_keypair_v2.keypair_backend.public_key}"]
+        }
+      ],
+      write_files = [
+        {
+          content = file("./provisioning_script_backend.sh")
+          path = "/home/ubuntu/provisioning_script_backend.sh"
+          permissions = "0555"
+        }, 
+      ],
+      runcmd = [
+        ["bash", "/home/ubuntu/provisioning_script_backend.sh", "${var.users_db_password}"]
+      ]
+    })
+  }
+}
+
+
+resource "openstack_compute_instance_v2" "lod_be_01" {
+  name = "lod_be_01"
+  image_id = "${openstack_images_image_v2.ubuntu_os.id}"
+  flavor_id = "3"
+  key_pair = "${openstack_compute_keypair_v2.keypair_backend.name}"
+  security_groups = ["${openstack_compute_secgroup_v2.db_security_group.name}", "${openstack_compute_secgroup_v2.ssh_security_group.name}"]
+
+  network {
+    name = "${openstack_networking_network_v2.private_network.name}"
+  }
+
+  user_data = "${data.cloudinit_config.user_data_be.rendered}"
+}
+
 data "cloudinit_config" "user_data_fe" {
   gzip = false
   base64_encode = false
@@ -142,37 +189,7 @@ data "cloudinit_config" "user_data_fe" {
         } 
       ],
       runcmd = [
-        ["bash", "/home/ubuntu/provisioning_script_frontend.sh", "${var.users_db_password}"]
-      ]
-    })
-  }
-}
-
-data "cloudinit_config" "user_data_be" {
-  gzip = false
-  base64_encode = false
-  part {
-    content_type = "text/cloud-config"
-    content = jsonencode({
-      users = [
-        {
-          name = "eval"
-          primary_group = "eval"
-          groups = "sudo"
-          shell = "/bin/bash"
-          sudo = ["ALL=(ALL) NOPASSWD:ALL"]
-          ssh-authorized-keys = ["${openstack_compute_keypair_v2.keypair_backend.public_key}"]
-        }
-      ],
-      write_files = [
-        {
-          content = file("./provisioning_script_backend.sh")
-          path = "/home/ubuntu/provisioning_script_backend.sh"
-          permissions = "0555"
-        }, 
-      ],
-      runcmd = [
-        ["bash", "/home/ubuntu/provisioning_script_backend.sh", "${var.users_db_password}"]
+        ["bash", "/home/ubuntu/provisioning_script_frontend.sh", "${var.users_db_password}", "${openstack_compute_instance_v2.lod_be_01.access_ip_v4}"]
       ]
     })
   }
@@ -190,20 +207,6 @@ resource "openstack_compute_instance_v2" "lod_fe_01" {
   }
 
   user_data = "${data.cloudinit_config.user_data_fe.rendered}"
-}
-
-resource "openstack_compute_instance_v2" "lod_be_01" {
-  name = "lod_be_01"
-  image_id = "${openstack_images_image_v2.ubuntu_os.id}"
-  flavor_id = "3"
-  key_pair = "${openstack_compute_keypair_v2.keypair_backend.name}"
-  security_groups = ["${openstack_compute_secgroup_v2.db_security_group.name}", "${openstack_compute_secgroup_v2.ssh_security_group.name}"]
-
-  network {
-    name = "${openstack_networking_network_v2.private_network.name}"
-  }
-
-  user_data = "${data.cloudinit_config.user_data_be.rendered}"
 }
 
 resource "openstack_compute_floatingip_associate_v2" "lod_fe_floatingip_association" {

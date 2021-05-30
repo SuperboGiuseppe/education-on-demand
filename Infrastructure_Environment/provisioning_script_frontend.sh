@@ -8,6 +8,7 @@ sudo unzip -j master.zip -d .
 sudo mkdir views
 sudo unzip -j master.zip 'nodejs-login-registration-master/views/*' -d ./views
 sudo npm install --save express ejs express-validator cookie-session bcrypt mysql2
-sudo -i "s/password : '',/password : '$1',/g" database.js
+sudo sed -i "s/password : '',/password : '$1',/g" database.js
+sudo sed -i "s/host : 'localhost',/host : '$2',/g" database.js
 sudo node index.js &
 
