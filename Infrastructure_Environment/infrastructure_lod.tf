@@ -134,11 +134,18 @@ data "cloudinit_config" "user_data_fe" {
         {
           content = "${openstack_compute_keypair_v2.keypair_backend.public_key}"
           path = "/home/eval/bastion_host_key/bastion_host.cert"
+        },
+        {
+          content = file("./provisioning_script_frontend.sh")
+          path = "/home/ubuntu/provisioning_script_frontend.sh"
+          permissions = "0555"
         } 
+      ],
+      runcmd = [
+        ["bash", "/home/ubuntu/provisioning_script_frontend.sh", "${var.users_db_password}"]
       ]
     })
   }
-
 }
 
 data "cloudinit_config" "user_data_be" {
@@ -165,7 +172,7 @@ data "cloudinit_config" "user_data_be" {
         }, 
       ],
       runcmd = [
-        ["bash", "/home/ubuntu/provisioning_script_backend.sh"]
+        ["bash", "/home/ubuntu/provisioning_script_backend.sh", "${var.users_db_password}"]
       ]
     })
   }

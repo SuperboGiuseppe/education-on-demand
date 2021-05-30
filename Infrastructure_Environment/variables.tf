@@ -29,3 +29,7 @@ variable "subnet_pool_id" {
 variable "public_network_id" {
   type = string
 }
+
+variable "users_db_password" {
+  type = string
+}
