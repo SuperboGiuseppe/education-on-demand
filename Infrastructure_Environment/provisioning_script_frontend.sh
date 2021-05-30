@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-sudo apt install -y nodejs
+sudo apt install -y nodejs unzip
 sudo mkdir -p /webserver/nodejs_login/
 cd /webserver/nodejs_login/
 sudo wget https://github.com/chandantudu/nodejs-login-registration/archive/refs/heads/master.zip
