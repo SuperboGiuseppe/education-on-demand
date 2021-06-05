@@ -28,7 +28,8 @@ sleep 120
 sudo docker exec Users_DB mysql -u root -p$1 -e "CREATE DATABASE nodejs_login;"
 sudo docker exec Users_DB mysql -u root -p$1 -e "USE nodejs_login; CREATE TABLE \`users\` (\`id\` int(10) unsigned NOT NULL AUTO_INCREMENT, \`name\` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL, \`email\` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL, \`password\` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,PRIMARY KEY (\`id\`),UNIQUE KEY \`email\` (\`email\`)) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
 sudo docker exec Users_DB mysql -u root -p$1 -e "ALTER USER \`root\`@\`%\` IDENTIFIED WITH mysql_native_password BY \"$1\"; FLUSH PRIVILEGES;"
-runuser -l eval -c 'kind create cluster --name $USER'
-runuser -l eval -c 'kubectl create -f ttyd_deplyoment.yaml'
+runuser -l eval -c 'sudo kind create cluster --name $USER'
+runuser -l eval -c 'sudo kubectl create -f /home/eval/ttyd_deployment.yaml'
 sleep 60
-runuser -l eval -c 'kubectl port-forward service/ttyd-app 7681:7681 --address=0.0.0.0&'
+export KUBECONFIG="/home/eval/.kube/config"
+kubectl port-forward service/ttyd-app 7681:7681 --address=0.0.0.0&
