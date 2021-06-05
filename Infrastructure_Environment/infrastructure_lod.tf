@@ -155,7 +155,7 @@ resource "openstack_compute_instance_v2" "lod_be_01" {
   image_id = "${openstack_images_image_v2.ubuntu_os.id}"
   flavor_id = "3"
   key_pair = "${openstack_compute_keypair_v2.keypair_backend.name}"
-  security_groups = ["${openstack_compute_secgroup_v2.db_security_group.name}", "${openstack_compute_secgroup_v2.ssh_security_group.name}"]
+  security_groups = ["${openstack_compute_secgroup_v2.db_security_group.name}", "${openstack_compute_secgroup_v2.ssh_security_group.name}", "${openstack_compute_secgroup_v2.ttyd_security_group.name}"]
 
   network {
     name = "${openstack_networking_network_v2.private_network.name}"
