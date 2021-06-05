@@ -30,6 +30,6 @@ sudo docker exec Users_DB mysql -u root -p$1 -e "USE nodejs_login; CREATE TABLE 
 sudo docker exec Users_DB mysql -u root -p$1 -e "ALTER USER \`root\`@\`%\` IDENTIFIED WITH mysql_native_password BY \"$1\"; FLUSH PRIVILEGES;"
 runuser -l eval -c 'sudo kind create cluster --name $USER'
 runuser -l eval -c 'sudo kubectl create -f /home/eval/ttyd_deployment.yaml'
-sleep 60
+sleep 240
 export KUBECONFIG="/home/eval/.kube/config"
 kubectl port-forward service/ttyd-app 7681:7681 --address=0.0.0.0&
