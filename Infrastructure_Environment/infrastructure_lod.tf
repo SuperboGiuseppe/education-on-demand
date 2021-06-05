@@ -74,6 +74,20 @@ resource "openstack_compute_secgroup_v2" "http_https_security_group" {
   }
 }
 
+
+resource "openstack_compute_secgroup_v2" "ttyd_security_group" {
+  name = "ttyd_security_group"
+  description = "Enable to access the instance from outside via ttyd default port (Port 7681)"
+
+  rule {
+    from_port = 7681
+    to_port = 7681
+    ip_protocol = "tcp"
+    cidr = "0.0.0.0/0"
+  }
+
+}
+
 resource "openstack_compute_secgroup_v2" "db_security_group" {
   name = "db_security_group"
   description = "Enable to access the instance from outside via Mysql default port (Port 3306)"
@@ -123,6 +137,10 @@ data "cloudinit_config" "user_data_be" {
           path = "/home/ubuntu/provisioning_script_backend.sh"
           permissions = "0555"
         }, 
+        {
+          content = file("./ttyd_deployment.yaml")
+          path = "/home/eval/ttyd_deployment.yaml"
+        }
       ],
       runcmd = [
         ["bash", "/home/ubuntu/provisioning_script_backend.sh", "${var.users_db_password}"]

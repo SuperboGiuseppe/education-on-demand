@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ttyd-app
+  labels:
+    app: ttyd-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ttyd-app
+  template:
+    metadata:
+      labels:
+        app: ttyd-app
+    spec:
+      containers:
+      - name: ttyd-worker
+        image: tsl0922/ttyd:alpine
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "ttyd-app"
+  annotations:
+    # Create endpoints also if the related pod isn't ready
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  type: NodePort
+  ports:
+  - port: 7681
+    nodePort: 30000
+    targetPort: 7681
+  selector:
+    app: ttyd-app
