@@ -40,10 +40,7 @@ Fog and Cloud Computing Project A.Y. 2020-21 University of Trento, Italy
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-In this project, we are going to design and configure an infrastructure that hosts several development web applications, especially for computer
-science/engineering students. In order to configure the necessary infrastructure assets, we are going to use OpenStack as our IaaS
-platform. In addition to this, we are going to adopt Docker and Kubernetes PaaS solutions to deploy the required containerized web
-applications.
+In this project, we have designed and configure an infrastructure that hosts a Linux virtual sandbox environment. In order to configure the necessary infrastructure assets, we have used OpenStack as our IaaS platform. In addition to this, we have adopted Docker and Kubernetes PaaS solutions to deploy the required containerized application and most importantly to automized all the platform we have used the terraform from hashicorp.
 
 ### Architecture
 The main OpenStack service used for this infrastructure is **Nova**,
