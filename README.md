@@ -104,7 +104,7 @@ environment sandbox. For this reason the user can create and access a pod whenev
 
 **DevOps**
 In order to automate the development process as we have discussed before. We have used Terraform as our infrastructure as a code software tool. In this way, all the infrastructure components are configured and managed in a structured way. Additionally, thanks to this IaaS tool, it is possible to see if any edit can affect the deployed components, before applying those changes.
-All the assets required for the deployment and the configuration of this project will be released in the following GitHub repository: <https://github.com/SuperboGiuseppe/education-on-demand>.
+All the assets required for the deployment and the configuration of this project will be released in the following [GitHub repository](https://github.com/SuperboGiuseppe/education-on-demand).
 
 ### Built With
 * [Terraform](https://www.terraform.io/)
