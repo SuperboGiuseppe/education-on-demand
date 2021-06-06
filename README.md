@@ -2,7 +2,7 @@
 <!-- PROJECT LOGO -->
 <p align="center">
     <!-- ![image](images/logo1.png) -->
- <img src="./images/logo1.png" width="50%" alt="OpenStack">
+ <img src="./images/image1.png" width="50%" alt="OpenStack">
   <h3 align="center">A Cloud infrastructure that provide Linux on Demand</h3>
 </p>
 <p align="center">
