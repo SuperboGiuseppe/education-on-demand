@@ -43,21 +43,16 @@ Fog and Cloud Computing Project A.Y. 2020-21 University of Trento, Italy
 In this project, we have designed and configure an infrastructure that hosts a Linux virtual sandbox environment. In order to configure the necessary infrastructure assets, we have used OpenStack as our IaaS platform. In addition to this, we have adopted Docker and Kubernetes PaaS solutions to deploy the required containerized application and most importantly to automized all the platform we have used the terraform from hashicorp.
 
 ### Architecture
-The main OpenStack service used for this infrastructure is **Nova**,
-which is used for the server instances. These instances are based on
-different OS images, depending on their main functionality. In addition
-to this, additional necessary applications/packages will be installed in
-each instance.
+The architecture of the platform is really straightforward. As you can see in the figure down below. We have explained it step by step. The main OpenStack service used for this infrastructure is **Nova**, which is used for the server instances. These instances are based on different OS images, depending on their main functionality. In addition
+to this, additional necessary applications/packages will be installed in each instance.
 
 **Infrastructure Design** as you can see in the image given below.
 
 ![image](images/Infrastructure_Architecture.png)
 
-Servers security is based on the ”Security Group” concept, which is
-similar to Firewall rule set but is applied on a group of servers level.
-Both the inbound and outbound traffic are filtered by the Security
-Group. Only defined ports and IPs are enabled to incoming traffic, as
-well as defined ports are enabled in outbound connections. Traffic is
+According to the available resources, we have created the instances: ‘lod-fe-01’, in Openstack which acts also as a bastion host of the infrastructure, meanwhile "lod-be-01" hosts a MySQL docker container that acts as the database of the infrastructure.
+
+Servers security is based on the ”Security Group” concept, which is similar to Firewall rule set but is applied on a group of servers level. Both the inbound and outbound traffic are filtered by the Security Group. Only defined ports and IPs are enabled to incoming traffic, as well as defined ports are enabled in outbound connections. Traffic is
 permitted on a need bases.
 
 **Networking**
