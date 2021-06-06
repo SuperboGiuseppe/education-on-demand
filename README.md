@@ -107,7 +107,6 @@ In order to automate the development process as we have discussed before. We hav
 All the assets required for the deployment and the configuration of this project will be released in the following GitHub repository: <https://github.com/SuperboGiuseppe/education-on-demand>.
 
 ### Built With
-
 * [Terraform](https://www.terraform.io/)
 * [OpenStack](https://www.openstack.org/)
 * [kubernetes](https://kubernetes.io/)
@@ -116,7 +115,7 @@ All the assets required for the deployment and the configuration of this project
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
+In order to get benifits from this project 
 ### Prerequisites
 
 * pendding
@@ -127,34 +126,7 @@ All the assets required for the deployment and the configuration of this project
 ```sh
 bla bla bla
 ```
-
-### Database
-#### Create of Project
-
-### Cloud Functions
-
-#### Deploy a new cloud function
-
-
 ## Usage
-
-
-
-### Cloud Functions
-
-
-<!-- DOCUMENTATION -->
-## Documentation
-
-
-
-<!-- EXAMPLES -->
-## Examples
-
-
-
-<!-- TROUBLESHOOT -->
-## Troubleshoot
 
 
 <!-- LICENSE -->
