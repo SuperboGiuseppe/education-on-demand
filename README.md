@@ -30,9 +30,6 @@ Fog and Cloud Computing Project A.Y. 2020-21 University of Trento, Italy
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
-* [Documentation](https://easybase.io/docs/easybase-react/)
-* [Examples](#examples)
-* [Troubleshoot](#troubleshoot)
 * [License](#license)
 * [Contact](#contact)
 
@@ -115,11 +112,11 @@ All the assets required for the deployment and the configuration of this project
 
 <!-- GETTING STARTED -->
 ## Getting Started
-In order to get benifits from this project 
+In order to get benefits from this project, you need to fulfill some prerequisites that are listed below.
 ### Prerequisites
 
-* pendding
-* pendding
+* You need to install [OpenStack](https://www.openstack.org/), OpenStack can be managed with a Command-line interface (CLI) and Graphical user interface. But here we have used [Terraform](https://www.terraform.io/) to automize our whole installation it's a powerful tool you can explore more about it from [hashicorp](https://www.hashicorp.com/). 
+* In order to run the applications on OpenStack instance you need to install also [kubernetes](https://kubernetes.io/), [Docker](https://www.docker.com/)on your machine which you are intended to use for the platform to run.
 
 ### Installation
 
