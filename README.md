@@ -95,10 +95,6 @@ In addition to the web application, this instance has also the purpose of provid
 **Back-end (edu-be-01)**
 The back-end instance is the core of the project as the core web application is executed here. In order to make the Linux sandbox environment available, a Kubernetes deployment and service are configured. Each pod of the deployment is part of a replica set and a service exposes each pod of the deployment through port 7681. All the pods of the deployment are based on the official docker image of the ttyd project [TTYD repository website](https://tsl0922.github.io/ttyd/). Ttyd is a simple web terminal app that lets authorized users access pods. In this way, the user can play around with a Linux sandbox environment directly from the browser.
 
-
-In addition to these docker container applications, kubernetes environment will be installed and configured in this instance as it is necessary to manage a dynamic cluster of pods. For this reason a kubernetes deployment will be configured along its replication set of pods. These pods are going to be offered to the users as Linux
-environment sandbox. For this reason the user can create and access a pod whenever he needs to learn some Linux bash commands. Thanks to SSHwifty the user will be able to establish an SSH connection with the private pod directly via browser. All the pods will be based on standard Ubuntu image. User profiles management will be managed by the back-end through the 3306 port from which it is possible to communicate with the infrastructure database (edu-db-01).
-
 **DevOps**
 In order to automate the development process as we have discussed before. We have used Terraform as our infrastructure as a code software tool. In this way, all the infrastructure components are configured and managed in a structured way. Additionally, thanks to this IaaS tool, it is possible to see if any edit can affect the deployed components, before applying those changes.
 All the assets required for the deployment and the configuration of this project will be released in the following [GitHub repository](https://github.com/SuperboGiuseppe/education-on-demand).
