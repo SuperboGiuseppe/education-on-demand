@@ -116,15 +116,21 @@ In order to get benefits from this project, you need to fulfill some prerequisit
 ### Prerequisites
 
 * You need to install [OpenStack](https://www.openstack.org/), OpenStack can be managed with a Command-line interface (CLI) and Graphical user interface. But here we have used [Terraform](https://www.terraform.io/) to automize our whole installation it's a powerful tool you can explore more about it from [hashicorp](https://www.hashicorp.com/). 
-* In order to run the applications on OpenStack instance you need to install also [kubernetes](https://kubernetes.io/), [Docker](https://www.docker.com/)on your machine which you are intended to use for the platform to run.
+* In order to run the applications on OpenStack instance you need to install also [kubernetes](https://kubernetes.io/), [Docker](https://www.docker.com/) on your machine which you are intended to use for the platform to run.
 
 ### Installation
+Once you have finished with the prerequisites installation you can use the script inside the [GitHub repository](https://github.com/SuperboGiuseppe/education-on-demand) and you can follow these commands to initialize your infrastructure. You can also modify the script according to your need.
 
 ```sh
-bla bla bla
+Main commands:
+  terraform init          Prepare your working directory for other commands
+  terraform validate      Check whether the configuration is valid
+  terraform plan          Show changes required by the current configuration
+  terraform apply         Create or update infrastructure
+  terraform destroy       Destroy previously-created infrastructure
 ```
 ## Usage
-
+This project can be used for any purpose.
 
 <!-- LICENSE -->
 ## License
