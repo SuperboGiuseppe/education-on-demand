@@ -88,76 +88,23 @@ servers in place for the project.
 
 | Host      | Flavor    | Number of vCpus | RAM | Storage | OS Image     | Floating IP |
 |-----------|-----------|-----------------|-----|---------|--------------|-------------|
-| lod-bh-01 | m1.small  | 1               | 2GB | 20GB    | Ubuntu 18.04 | Yes         |
 | lod-fe-01 | m1.small  | 1               | 2GB | 20GB    | Ubuntu 18.04 | Yes         |
 | lod-be-01 | m1.medium | 2               | 4GB | 40GB    | Ubuntu 18.04 | No          |
-| lod-db-01 | m1.small  | 1               | 2GB | 20GB    | Ubuntu 18.04 | No          |
-
-**Bastion Host (edu-bh-01)**
-This instance has the purpose of providing access to a private network
-from the public network. Its scope is to minimize the chance of
-penetration and so strict firewall rules are required to be applied. For
-this reason a floating IP is associated to this instance and the only
-port reachable from public network is 22, as only SSH connection will be
-possible from the floating IP. Naturally only the known hosts will be
-authorized to access the private network through the exchange of public
-and private keys. From the bastion host it will be possible to reach the
-other project instances from their private IP addresses.
 
 **Front-end (edu-fe-01)**
-The front-end instance is in charge of hosting the WEB Interface for the
-final user. For this reason **Nginx** will be installed during the
-creation of the instance in order to configure a web server. In order to
-expose the web server content to the public internet it is necessary to
-associate a floating IP. The content will be reachable only through
-HTTP/HTTPS protocol (Ports 80 and 443). All the services prompted by the
-front-end are hosted in the back-end, and the user can access them only
-if it is registered to the platform with a private profile.
+The front-end instance is in charge of hosting the WEB Interface for the final user. Originally we wanted to configure the webserver with **Nginx**. However, in order to avoid all the problems related to the complex configuration of *Nginx*, we adopted a complete **nodejs** web application [nodejs-login-registration repository](https://github.com/SuperboGiuseppe/nodejs-login-registration) that could satisfy our requirements. This nodejs application exposes a login/registration prompt through port 3000. All the users' accounts are saved in the DB located in lod-be-01 as a docker MySQL container reachable from port 3306. Once the user has been authorized, he can access the Linux sandbox which is a Kubernetes service hosted also on lod-be-01 and reachable from port 7681.
+In addition to the web application, this instance has also the purpose of providing access to a private network from the public network.  For this reason, a floating IP is associated with this instance, and system administrators can establish an ssh connection with lod-be-01 through lod-fe-01.
 
 **Back-end (edu-be-01)**
-The back-end instance is the core of the project as all the main web
-applications are executed here. In order to make educational
-applications available, docker PaaS set of service will be installed
-along with the docker engine. In this way we will deploy the following
-containers:
+The back-end instance is the core of the project as the core web application is executed here. In order to make the Linux sandbox environment available, a Kubernetes deployment and service are configured. Each pod of the deployment is part of a replica set and a service exposes each pod of the deployment through port 7681. All the pods of the deployment are based on the official docker image of the ttyd project [TTYD repository website](https://tsl0922.github.io/ttyd/). Ttyd is a simple web terminal app that lets authorized users access pods. In this way, the user can play around with a Linux sandbox environment directly from the browser.
 
-| Application | Description                                             | Link                                                                       |
-|-------------|---------------------------------------------------------|----------------------------------------------------------------------------|
-| SSHwifty    | SSHwifty is a SSH and Telnet connector made for the web | [SSHwifty repository](https://github.com/nirui/sshwifty)                   |
-| Paperless   | PDF documents manager                                   | [Paperless repository](https://github.com/the-paperless-project/paperless) |
-| Code-Server | Visual studio code IDE on WEB                           | [Code-Server repository](https://github.com/cdr/code-server)               |
 
-In addition to these docker container applications, kubernetes
-environment will be installed and configured in this instance as it is
-necessary to manage a dynamic cluster of pods. For this reason a
-kubernetes deployment will be configured along its replication set of
-pods. These pods are going to be offered to the users as Linux
-environment sandbox. For this reason the user can create and access a
-pod whenever he needs to learn some Linux bash commands. Thanks to
-SSHwifty the user will be able to establish an SSH connection with the
-private pod directly via browser. All the pods will be based on standard
-Ubuntu image.
-
-User profiles management will be managed by the back-end through the
-3306 port from which it is possible to communicate with the
-infrastructure database (edu-db-01).
-
-**Database (edu-db-01)**
-In the database we will have all the details of user profiles. The user
-can access the services only if authorized by his credentials, which are
-stored in this database. For this reason mysql-server package will be
-installed in order to store a relational database in the root volume of
-this instance.
+In addition to these docker container applications, kubernetes environment will be installed and configured in this instance as it is necessary to manage a dynamic cluster of pods. For this reason a kubernetes deployment will be configured along its replication set of pods. These pods are going to be offered to the users as Linux
+environment sandbox. For this reason the user can create and access a pod whenever he needs to learn some Linux bash commands. Thanks to SSHwifty the user will be able to establish an SSH connection with the private pod directly via browser. All the pods will be based on standard Ubuntu image. User profiles management will be managed by the back-end through the 3306 port from which it is possible to communicate with the infrastructure database (edu-db-01).
 
 **DevOps**
-In order to automate the development process we are going to use
-Terraform as our infrastructure as a code software tool. In this way all
-the infrastructure components are configured and managed in a structured
-way. Additionally, thanks to this IaaS tool, it is possible to see if
-any edit can affect the deployed components, before applying those
-changes. All the assets required for the deployment and the
-configuration of this project will be released in the following GitHub
-repository: <https://github.com/SuperboGiuseppe/education-on-demand>.
+In order to automate the development process as we have discussed before. We have used Terraform as our infrastructure as a code software tool. In this way, all the infrastructure components are configured and managed in a structured way. Additionally, thanks to this IaaS tool, it is possible to see if any edit can affect the deployed components, before applying those changes.
+All the assets required for the deployment and the configuration of this project will be released in the following GitHub repository: <https://github.com/SuperboGiuseppe/education-on-demand>.
 
 ### Built With
 
