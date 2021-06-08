@@ -24,7 +24,7 @@ kind: Service
 metadata:
   name: "ttyd-app"
   annotations:
-    # Create endpoints also if the related pod isn't ready
+    # Create endpoints also if the related pod isn't ready.
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
   type: NodePort
